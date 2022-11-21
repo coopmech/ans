@@ -1,0 +1,3 @@
+sudo yum install ansible
+ansible --version
+ansible -m setup localhost | grep ansible_python_version
