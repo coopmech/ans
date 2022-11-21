@@ -1,3 +1,9 @@
 sudo yum install ansible
 ansible --version
 ansible -m setup localhost | grep ansible_python_version
+
+# the default inventory file
+cat /etc/ansible/hosts
+
+ansible all --list-hosts
+ansible ungrouped --list-hosts
