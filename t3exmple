@@ -1,0 +1,25 @@
+#Task 3:
+#Create a playbook install_packages.yml to do the following:
+#Install php and mariadb packages on dev, qual and webservers nodes
+#Install Development Tools package group on webservers nodes only
+
+#cat install_packages.yml
+---
+- hosts:
+      - dev
+      - qual
+      - webservers
+  become: yes
+  tasks:
+  - name: install php and mariadb
+    yum:
+      name:
+        - php
+        - mariadb
+      state: latest
+
+  - name: install development tools
+    yum:
+      name: "@Development tools"
+      state: latest
+    when: inventory_hostname in groups['webservers']
