@@ -1,0 +1,14 @@
+#Tasks2: Working with Ansible AdHoc
+#Create a bash script called distribute_key.sh to do the following by Using ansible adhoc:
+#create user svcansible on all managed hosts
+#distribute svcansible user public ssh key to all managed hosts
+#svcansible user is allowed to elevate privileges on all inventory hosts without having to provide a password.
+#Note: you may need to use root user to perform this task
+
+#this can be use with create script distribute_key.ssh
+#_____________________________________________________________________________________________________________________
+
+#!/bin/bash
+ansible all -m user -a "name=svcansible" -u root --ask-pass -b --ask-become-pass
+ansible all -m authorized key -a "user=svcansible key='{{ lookup('file','/home/svcansible/.ssh/id_rsa.pub') }}'" -u root --ask-pass -b --ask-become-pass
+ansible all -m lineinfile -a "path=/etc/sudoers state=present backup=yes line='svcansible ALL=(ALL) NOPASSWD: ALL' validate='/usr/sbin/visudo -cf %s'" -u root --ask-pass -b --ask-become-pass
